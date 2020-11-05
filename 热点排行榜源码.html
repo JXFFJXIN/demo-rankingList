@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0px;
+            padding: 0px;
+            list-style: none;
+        }
+
+
+        .wrapper {
+            margin: 100px auto 0px;
+            border: 1px solid black;
+            width: 400px;
+            padding: 8px 10px;
+        }
+
+        .wrapper .title {
+            font-size: 14px;
+            font-weight: bold;
+            padding: 4px 0px;
+        }
+
+
+        .wrapper .title .change {
+            float: right;
+            font-size: 13px;
+            text-decoration: none;
+            font-weight: normal;
+        }
+
+        .wrapper .title::after {
+            clear: both;
+            display: block;
+            content: '';
+        }
+
+        .wrapper .title .change i {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            background-image: url('https://www.baidu.com/aladdin/tpl/right_toplist1/refresh.png');
+            background-size: 100% 100%;
+            background-position: 0px 0px;
+            vertical-align: bottom;
+        }
+
+
+        .wrapper .list ul li {
+            padding: 7px 0px;
+            border-bottom: 1px solid #f3f3f3;
+        }
+
+
+        .wrapper .list ul li .left {
+            display: inline-block;
+            width: 22px;
+            color: #fff;   
+            background-color: #8eb9f5;   
+            padding: 1px 0px;  
+            text-align: center;
+            margin-right: 10px;
+        }
+
+        .wrapper .list ul li .right {
+            float: right;
+            width: 50px;
+            text-align: center;
+            margin-right: 10px;
+        }
+
+
+        .wrapper .list ul li .order1 {
+            background-color: #f54545;;
+        }
+
+        .wrapper .list ul li .order2 {
+            background-color: #ff8547;;
+        }
+
+        .wrapper .list ul li .order3 {
+            background-color: #ffac38;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="title">
+            百度热榜
+            <a class='change' href="javascript:void(0)">
+                换一换
+                <i></i>
+            </a>
+        </div>
+        <div class="list">
+            <ul>
+                <!-- <li>1</li>
+                <li>2</li>
+                <li>3</li>
+                <li>4</li> -->
+            </ul>
+        </div>
+    </div>
+
+
+    <script>
+      var arr = [
+        [{text: '三文鱼应无罪但暂时不要生吃', num: '235万'}, {text: '北京丰台区启动战时机制', num: '220万'}, {text: '失恋女子酒后砸破舷窗致航班备降',num: '210万'}, {text: '杨坤评价周杰伦新歌', num: '180万'}, {text: '北京餐饮防控调至二级时管控措施', num: '145万'}, {text: '台风鹦鹉将正面袭击广东', num: '137万'}],
+        [{text: '辽宁新增2例确诊为北京确诊密接', num: '132万'}, {text: '巴西新冠肺炎确诊超85万', num: '125万'}, {text: '下个月工资的2个变化', num: '120万'}, {text: '北京丰台两个街乡被列中风险地区',num: '110万'}, {text: '曾光建议民众暂不要生食三文鱼', num: '103万'}, {text: '白冰前夫回应离婚', num: '97万'}],
+        [{text: '京津冀统一筛查居民新发地行程', num: '90万'}, {text: '戒网瘾学校待三天全身多处淤青', num: '87万'}, {text: '国务院督办温岭槽罐车爆炸事故',num: '70万'}],      
+      ];
+
+
+
+    //   arr[0] 展现出来  渲染出来
+
+    var oUl = document.getElementsByClassName('list')[0].getElementsByTagName('ul')[0];
+
+    var oChange = document.getElementsByClassName('change')[0];
+    
+    var indexPage = 0;
+
+
+    // 绑定事件
+
+    // 给谁绑定事件    事件类型是什么     事件处理函数是谁
+    function bindEvent (dom, type, handle) {
+        dom['on'+ type] = handle;
+        console.log(0)
+        // dom['onClick'] = handle
+    }
+
+
+
+
+
+
+
+
+
+
+    // console.log(oUl)
+
+
+    //  单一职责原则 
+    // var arr2 = ['a', 'b', 'c'];
+
+    // arr2.forEach(function (ele, index) {
+    //     console.log(ele, index);
+    // });
+
+
+    function render (data, dom) {
+        // 先 清理干净 dom中的内容
+        dom.innerHTML = '';
+
+        // 在 dom 中 根据data去生产标签  渲染数据  加
+        data.forEach(function (ele, index) {
+            console.log(ele, index)
+
+            // <li><span>1</span> <a>ele.text</a>   <span>ele.num</span></li>
+            var oLi = document.createElement('li');
+            var orderNum = indexPage * 10 + ++index;
+            oLi.innerHTML = '<span class="left order' + orderNum + '">' + orderNum  + '</span><a>' + ele.text + '</a><span class="right">' + ele.num + '</span>';
+
+            dom.appendChild(oLi);
+        })
+
+        // for (var index = 0; index < data.length; index++) {
+        //     var ele = data[index];
+        //     console.log(ele, index)
+        // }
+        
+    };
+
+    render(arr[indexPage], oUl);
+
+    function upDate () {
+        // 0 3    0 1 2
+        render(arr[ indexPage = ++indexPage % arr.length ], oUl); 
+    }
+    
+    bindEvent(oChange, 'click', upDate);
+
+
+    </script>
+
+
+</body>
+</html>
